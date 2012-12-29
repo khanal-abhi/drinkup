@@ -86,6 +86,41 @@ if (isset($_POST['type']))
 
 	}
 
+	if(strcasecmp($type, 'login') == 0)
+	{
+		$email = $_POST['email'];
+		$pw = crypt($_POST['password'], $salt);
+		$db = new mysqli(localhost, $user, $password, $dbase);
+		$query = "SELECT * FROM `users` WHERE `email` = '{$email}'";
+		echo $query;
+		$resultset = $db->query($query);	
+		$response['match'] = false;
+		if($resultset)
+		{
+			
+			while ($row = $resultset->fetch_object()) {
+
+				$response['match'] = true;
+				if(strcasecmp($pw, $row->password) == 0)
+				{
+					$response['login'] = 'successfull';
+				}
+
+				else
+				{
+					$response['login'] = 'failed';
+				}
+			}
+
+			$resultset->close();
+			$db->next_result();
+		}
+
+		$db->close();
+
+
+	}
+
 	response.header('Content-Type: text/html');
 	echo json_encode($response);
 }
@@ -126,6 +161,15 @@ else
 			<input type='hidden' name='type' value='create'/>
 			<input type='submit' value='Create'/> 
 		</form>
+		<br />
+
+		<form method='post' action='user.php'>
+			<input type='hidden' name='type' value='login'>
+			Email: <input type='email' name='email' />
+			Password: <input type='password' name='password' />
+			<input type='submit' value='Log In'/> 
+		</form>
+
 	</body>
 
 </html>
