@@ -25,6 +25,8 @@ if (isset($_POST['type']))
 				$i++;
 			}
 
+			$response['results'] = $i;
+
 			$resultset->close();
 			$db->next_result();
 		}
@@ -38,7 +40,7 @@ if (isset($_POST['type']))
 		$first = $_POST['first'];
 		$last = $_POST['last'];
 		$email = $_POST['email'];
-		$pw = crypt($_POST['password'], $salt);
+		$pw = crypt($_POST['pw'], $salt);
 		$age = $_POST['age'];
 		$sex = $_POST['sex'];
 		$zip = $_POST['zip'];
@@ -66,7 +68,6 @@ if (isset($_POST['type']))
 		if (!$response['match'])
 		{
 			$query = "INSERT INTO `users` (`first`, `last`, `email`, `password`, `age`, `sex`, `zip`) VALUES ('{$first}', '{$last}', '{$email}', '{$pw}', '{$age}', '{$sex}', '{$zip}')";
-			echo $query;
 			if ($db->query($query))
 			{
 				$response['success'] = true;
@@ -89,10 +90,9 @@ if (isset($_POST['type']))
 	if(strcasecmp($type, 'login') == 0)
 	{
 		$email = $_POST['email'];
-		$pw = crypt($_POST['password'], $salt);
+		$pw = crypt($_POST['pw'], $salt);
 		$db = new mysqli(localhost, $user, $password, $dbase);
 		$query = "SELECT * FROM `users` WHERE `email` = '{$email}'";
-		echo $query;
 		$resultset = $db->query($query);	
 		$response['match'] = false;
 		if($resultset)
@@ -101,7 +101,9 @@ if (isset($_POST['type']))
 			while ($row = $resultset->fetch_object()) {
 
 				$response['match'] = true;
-				if(strcasecmp($pw, $row->password) == 0)
+				$ppw = $row->password;
+
+				if(strcasecmp($pw, $ppw) == 0)
 				{
 					$response['login'] = 'successfull';
 				}
@@ -131,45 +133,84 @@ else
 
 <html>
 	<head>
-		<title>json request</title>
+		<title>Bars Admin: v1.0</title>
+		<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 	</head>
 	<body>
-		<form method='post' action='user.php'>
-			<input type='hidden' name='type' value='search'>
-			Email: <input type='email' name='email' />
-			<input type='submit' value='Search'/> 
-		</form>
+		<div class="main_wrapper">
+			<div class="main_category"><span class="main_title">Drinkup Admin Page v1.0</span></div>
+			<div class="category">
+				<span class="sub_title">Search by Email:</span>
+				<br />
+				<form action="user.php" method="post">
+					<input type="hidden" name="type" value="search" />
+					<span class="label">Email:</span>
+					<input type="email" name="email" class="response"/>
+					<br />
+					<span class="label"></span>
+					<input type="submit" value="Search" class="response"/>
+					<br />
 
-		<br />
+				</form>
 
-		<form method='post' action='user.php'>
-			
-			First: <input type='text' name='first' /> 
-			<br />
-			Last: <input type='text' name='last' />
-			<br />
-			Email: <input type='email' name='email' />
-			<br />
-			Password: <input type='password' name='password' />
-			<br />
-			Age: <input type='text' name = 'age' />
-			<br />
-			Sex: <input type='radio' name='sex' value='m'>Male</input>
-				 <input type='radio' name='sex' value='f'>Female</input>
-			<br />
-			Zip: <input type='text' name='zip'/>
-			<input type='hidden' name='type' value='create'/>
-			<input type='submit' value='Create'/> 
-		</form>
-		<br />
+			</div>
 
-		<form method='post' action='user.php'>
-			<input type='hidden' name='type' value='login'>
-			Email: <input type='email' name='email' />
-			Password: <input type='password' name='password' />
-			<input type='submit' value='Log In'/> 
-		</form>
+			<div class="category">
+				<span class="sub_title">Create a User:</span>
+				<br />
+				<form action="user.php" method="post">
+					<input type="hidden" name="type" value="create" />
+					<span class="label">First Name:</span>
+					<input type="text" name="first" class="response"/>
+					<br />
+					<span class="label">Last Name:</span>
+					<input type="text" name="last" class="response"/>
+					<br />
+					<span class="label">Email:</span>
+					<input type="email" name="email" class="response"/>
+					<br />
+					<span class="label">Password:</span>
+					<input type="password" name="pw" class="response"/>
+					<br />
+					<span class="label">age:</span>
+					<input type="text" name="age" class="response"/>
+					<br />
+					<span class="label">Sex:</span>
+					Male: <input type="radio" name="sex" class="response" value="Male" />
+					<br />
+					<span class="label"></span>
+					Female: <input type="radio" name="sex" class="response" value="Female" />
+					<br />
+					<span class="label">Zip:</span>
+					<input type="text" name="zip" class="response"/>
+					<br />
+					<span class="label"></span>
+					<input type="submit" value="Create" class="response"/>
+					<br />
 
+				</form>
+
+			</div>
+
+			<div class="category">
+				<span class="sub_title">Log in:</span>
+				<br />
+				<form action="user.php" method="post">
+					<input type="hidden" name="type" value="login" />
+					<span class="label">Email:</span>
+					<input type="email" name="email" class="response"/>
+					<br />
+					<span class="label">Password:</span>
+					<input type="password" name="pw" class="response"/>
+					<br />
+					<span class="label"></span>
+					<input type="submit" value="Sign in" class="response"/>
+					<br />
+
+				</form>
+
+			</div>
+		</div>
 	</body>
 
 </html>
