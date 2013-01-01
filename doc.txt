@@ -1,0 +1,63 @@
+Drinkup Framework Documentation:
+
+All paths are relative to the main hosting path "drinkup.site50.net." This is a temporary hosting account till further development is done.
+
+Actions:
+
+1) user.php:
+user.php is used to create a user (after extracting their information from Facebook or letting them create an account with us), search for a user based on the email address, or verify login information. Password reset and email verification will be added shortly, although welcome email is already being sent.
+
+Creating a user:
+a) Credentials from the Facebook account.
+b) Credentials from a form in the app.
+
+No matter where the credentials are obtained from, make a POST request using the following variables (must supply each and every variable),
+
+type:create,
+first:John,
+last:Doe,
+email:john@doe.com,
+age:20,
+sex:m,
+zip:24060.
+
+you will get one of these responses
+
+'match':'true' -> user exists.
+'result':'success' -> user has been created.
+'result':'failed' -> possible server error, let's hope for the best and keep me posted if you break it.
+
+Searching for a user:
+Search via email only at the moment, but I will be expanding the framework as we go.
+
+type:search
+email:john@doe.com
+
+you will get one of the results.
+{'match':true, '0':{'first':'John', 'last':'Doe', 'email':'john@doe.com'}, 'results':1} -> remember the pattern as it's consistent. Though unnecessary here, 'results' will tell you the size of the result array.
+{'match':false, 'results':0} -> no match found.
+
+
+2) bar.php:
+searching for a bar: (currently just the zip code. I will add Longitude and Lattitude in due time. MYSQL to POSTGRESQL issue with heroku destroyed my work)
+
+type:search
+zip:24060
+
+you will get one of there responses
+
+{"match":true,"0":{"id":"8","name":"Big Al\\'s","zip":"24060","icon":"images\/bigals.png"},"1":{"id":"7","name":"Rivermill","zip":"24060","icon":"images\/rivermill.png"},"2":{"id":"6","name":"Sharkeys","zip":"24060","icon":"images\/sharkeys.png"},"results":3} -> same pattern as above
+{"match":false,"results":0} -> same here.
+
+I havent used httprequest in androids yet but from what I read, it should be similar. But if my descriptions do not make sense, you can check out the source for 
+
+user.php
+bar.php
+order.php
+menu.php
+
+All of them follow the same pricipal for both requests and responses as well. 
+Feel free to email me if you have any question. 
+Abhi
+
+
