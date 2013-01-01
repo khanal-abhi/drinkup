@@ -6,7 +6,7 @@ if (isset($_POST['type'])) {
 
 	$type = $_POST['type'];
 	$response['match'] = false;
-	$db = new mysqli(localhost, $user, $password, $dbase);
+	$db = new mysqli($host, $user, $password, $dbase);
 
 	if (strcasecmp($type, "search") == 0) {
 

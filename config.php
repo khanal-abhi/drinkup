@@ -5,7 +5,7 @@
 
 //for datbase configuration
 
-$host = 'localhost';
+$host = localhost;
 $user = 'drinkup';
 $password = 'drinkup';
 $dbase = 'drinkup';

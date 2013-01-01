@@ -5,7 +5,7 @@ require('config.php');
 if (isset($_POST['type'])) {
 	
 	$response['match'] = false;
-	$db = new mysqli(localhost, $user, $password, $dbase);
+	$db = new mysqli($host, $user, $password, $dbase);
 	$type = $_POST['type'];
 
 

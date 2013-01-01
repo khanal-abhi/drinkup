@@ -9,7 +9,7 @@ if (isset($_POST['type']))
 	{
 		$email = $_POST['email'];
 		
-		$db = new mysqli(localhost, $user, $password, $dbase);
+		$db = new mysqli($host, $user, $password, $dbase);
 		$query = "SELECT * FROM `users` WHERE `email` = '{$email}'";
 		$resultset = $db->query($query);	
 		$response['match'] = false;
@@ -45,7 +45,7 @@ if (isset($_POST['type']))
 		$sex = $_POST['sex'];
 		$zip = $_POST['zip'];
 		
-		$db = new mysqli(localhost, $user, $password, $dbase);
+		$db = new mysqli($host, $user, $password, $dbase);
 		$query = "SELECT * FROM `users` WHERE `email` = '{$email}'";
 		$resultset = $db->query($query);
 		$response['match'] = false;
@@ -91,7 +91,7 @@ if (isset($_POST['type']))
 	{
 		$email = $_POST['email'];
 		$pw = crypt($_POST['pw'], $salt);
-		$db = new mysqli(localhost, $user, $password, $dbase);
+		$db = new mysqli($host, $user, $password, $dbase);
 		$query = "SELECT * FROM `users` WHERE `email` = '{$email}'";
 		$resultset = $db->query($query);	
 		$response['match'] = false;

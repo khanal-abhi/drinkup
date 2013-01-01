@@ -10,7 +10,7 @@ if (isset($_POST['type'])) {
 	$lat;
 	$icon;
 
-	$db = new mysqli(localhost, $user, $password, $dbase);
+	$db = new mysqli($host, $user, $password, $dbase);
 
 
 	if(strcasecmp($type, "search") == 0)
