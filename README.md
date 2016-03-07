@@ -1,0 +1,2 @@
+# drinkup
+This was back in school when I was working with PHP. We were working on a startup and I was the front-end / backend developer so I tried a couple different languages to see which I would prefer. I only have this PHP and another Python based backend. I am proud of it so while I had to leave the team for moving out of town for family reason, the team went on the Ycombinator and now we lost touch. Someday, I may just get a chance to use what the app turned out to be.
